@@ -1,0 +1,33 @@
+version: '3'
+services:
+
+  # 开源的系统监控和报警系统
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - "/data/docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
+    command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus"
+    ports:
+      - "9090:9090"
+
+  # 采集服务器层面的运行指标
+  node_export:
+    image: prom/node-exporter
+    container_name: node-exporter
+    restart: unless-stopped
+    volumes:
+      - "/proc:/host/proc:ro"
+      - "/sys:/host/sys:ro"
+      - "/:/rootfs:ro"
+    ports:
+      - "9100:9100"
+ 
+  # UI展示
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000" 

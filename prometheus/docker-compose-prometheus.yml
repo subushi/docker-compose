@@ -1,0 +1,11 @@
+version: '3'
+services:
+  prometheus:
+    image: prom/prometheus                    # 镜像`prom/prometheus`
+    container_name: prometheus                # 容器名称'prometheus'
+    restart: unless-stopped                   # 指定容器退出后的重启策略为始终重启，但是不考虑在Docker守护进程启动时就已经停止了的容器
+    volumes:                                  # 数据卷挂载路径设置,将本机目录映射到容器目录
+    - "/data/docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
+    command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus"
+    ports:                                    # 映射端口
+    - "9090:9090"

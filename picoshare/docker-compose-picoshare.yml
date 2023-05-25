@@ -1,0 +1,11 @@
+version: '3'
+services:
+  picoshare:
+    image: mtlynch/picoshare
+    container_name: picoshare
+    volumes:
+      - "./data:/data"
+    environment:
+      - PS_SHARED_SECRET=subushi # 设置登录密码
+    ports:
+      - "4001:4001"

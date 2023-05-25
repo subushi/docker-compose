@@ -1,0 +1,14 @@
+version: '3'
+services:
+  halo:
+    image: halohub/halo:2.5
+    container_name: halo-2
+    restart: unless-stopped
+    volumes:
+      - ./.halo2:/root/.halo2
+    command:
+      - --halo.external-url=http://192.168.10.166:8090/         # 外部访问地址，请根据实际需要修改
+      - --halo.security.initializer.superadminusername=halo     # 初始化的超级管理员用户名
+      - --halo.security.initializer.superadminpassword=halo   # 初始化的超级管理员密码
+    ports:
+      - "8090:8090"

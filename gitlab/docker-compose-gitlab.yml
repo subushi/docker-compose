@@ -1,0 +1,27 @@
+version: '3'
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest                   # 镜像`gitlab/gitlab-ce:latest`
+    container_name: gitlab                           # 容器名称'gitlab'
+    restart: unless-stopped                          # 指定容器退出后的重启策略为始终重启，但是不考虑在Docker守护进程启动时就已经停止了的容器
+    volumes:                                         # 数据卷挂载路径设置,将本机目录映射到容器目录
+      - "/data/docker/gitlab/etc:/etc/gitlab"
+      - "/data/docker/gitlab/logs:/var/log/gitlab"
+      - "/data/docker/gitlab/opt:/var/opt/gitlab"
+    ports:                                           # 映射端口
+      - "9980:80"
+      - "9922:22"
+      - "9443:443"
+
+    # 某些gitlab版本启动后自带初始化密码，使用以下命令进行查看，默认登录账号为root
+    # docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+
+    # 首次启动后在映射目录 /data/docker/gitlab/etc 下的 gitlab.rb 中添加以下内容
+    #external_url 'http://110.40.196.124:9980'               http克隆链接
+    #gitlab_rails['gitlab_ssh_host'] = '110.40.196.124'      ssh克隆链接
+    #gitlab_rails['gitlab_shell_ssh_port'] = 9922            ssh克隆端口
+
+    # 添加后删除原容器，将ports项修改为以下端口再启动即可
+    #- "9980:9980"
+    #- "9922:9922"
+    #- "9443:9443"

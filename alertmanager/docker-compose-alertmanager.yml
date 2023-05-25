@@ -1,0 +1,10 @@
+version: '3'
+services:
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    restart: unless-stopped
+    volumes:
+      - "/data/docker/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml"
+    ports:
+      - "9093:9093"

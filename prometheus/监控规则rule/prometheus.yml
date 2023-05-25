@@ -1,0 +1,30 @@
+#Prometheus配置部分
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ['10.10.30.39:9090']     #prometheus主服务器
+        labels:
+          instance: prometheus
+
+#node_export主机资源监控部分
+  - job_name: linux
+    static_configs:
+      - targets: ['222.211.72.40:9100']     #被监控的服务器localhost:9100
+      - targets: ['10.10.30.39:9100']
+        labels:
+          instance: localhost
+          
+#cadvisor容器监控部分
+  - job_name: docker
+    static_configs:
+      - targets: ['222.211.72.40:8081']     #被监控的服务器localhost:8081
+      - targets: ['10.10.30.39:8081']
+
+#alertmanager告警部分
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets: ["10.10.30.39:9093"]    #告警配置地址
+
+rule_files:
+  - "/etc/prometheus/*rule.yml"

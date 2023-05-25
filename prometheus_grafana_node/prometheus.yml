@@ -1,0 +1,12 @@
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ['192.168.10.125:9090']     #prometheus服务器
+        labels:
+          instance: prometheus
+
+  - job_name: linux
+    static_configs:
+      - targets: ['192.168.10.101:9100']     #被监控的服务器localhost:9100
+        labels:
+          instance: localhost

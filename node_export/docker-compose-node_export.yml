@@ -1,0 +1,12 @@
+version: '3'
+services:
+  node_export:
+    image: prom/node-exporter                # 镜像`prom/node-exporter`
+    container_name: node-exporter            # 容器名称'node-exporter'
+    restart: unless-stopped                  # 指定容器退出后的重启策略为始终重启，但是不考虑在Docker守护进程启动时就已经停止了的容器
+    volumes:                                 # 数据卷挂载路径设置,将本机目录映射到容器目录
+      - "/proc:/host/proc:ro"
+      - "/sys:/host/sys:ro"
+      - "/:/rootfs:ro"
+    ports:                                   # 映射端口
+      - "9100:9100"
